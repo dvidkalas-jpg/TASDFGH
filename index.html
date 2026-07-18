@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Enterprise Hub</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg: #0d0d0d; --card: #161616; --border: #2a2a2a;
+            --blue: #8ab4f8; --text-dim: #9aa0a6;
+            --gemini-grad: linear-gradient(45deg, #4285f4, #9b72cb, #d96570);
+        }
+        body { background: var(--bg); color: #fff; margin: 0; display: flex; flex-direction: column; align-items: center; font-family: 'Inter', sans-serif; padding-top: 30px; padding-bottom: 80px; }
+
+        /* CLEAN INTERFACE: No top header text or three-dot icon blocks */
+        .console-panel { width: 92%; max-width: 420px; background: var(--card); border: 1px solid var(--border); border-radius: 32px; padding: 24px; box-sizing: border-box; }
+        
+        .search-box { background: #212121; border: 1px solid #333; border-radius: 14px; padding: 15px; margin-bottom: 30px; display: flex; align-items: center; gap: 12px; }
+        .search-box input { background: transparent; border: none; color: #fff; outline: none; width: 100%; font-size: 1rem; }
+
+        .stack-section { margin-bottom: 5px; }
+        .section-label { font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1.5px; margin: 35px 0 16px 0; display: flex; align-items: center; gap: 10px; }
+
+        /* INTERACTIVE ITEMS */
+        .gemini-card { display: flex; border: 1.5px solid transparent; background-image: linear-gradient(#1c1c1c, #1c1c1c), var(--gemini-grad); background-origin: border-box; background-clip: padding-box, border-box; border-radius: 18px; padding: 22px; align-items: center; justify-content: space-between; cursor: pointer; text-decoration: none; }
+        .gemini-text { background: var(--gemini-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700; font-size: 1.1rem; }
+
+        .provider-list { display: flex; flex-direction: column; gap: 10px; }
+        .provider { background: #212121; border: 1px solid #333; border-radius: 16px; padding: 18px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; text-decoration: none; color: inherit; }
+        .provider:active { transform: scale(0.98); background: #282828; }
+        .provider .left { display: flex; align-items: center; gap: 14px; font-weight: 500; font-size: 0.95rem; }
+        
+        .icon-box { width: 22px; text-align: center; font-size: 1.1rem; }
+        .fa-chevron-right { font-size: 11px; opacity: 0.3; }
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+
+    <div class="console-panel">
+        <div class="search-box">
+            <i class="material-icons-round">search</i>
+            <input type="text" id="searchInput" placeholder="Search entire architecture archive..." oninput="filterStack()">
+        </div>
+
+        <div class="stack-section">
+            <div class="section-label">Primary AI Core</div>
+            <a href="#" onclick="executeGeminiCall(event)" class="gemini-card stack-item" data-name="gemini enterprise google ai core">
+                <span class="gemini-text">Gemini Enterprise</span>
+                <i class="material-icons-round" style="color:#8ab4f8; font-size:20px;">north_east</i>
+            </a>
+        </div>
+
+        <div class="stack-section">
+            <div class="section-label">Ultra High Performance Languages</div>
+            <div class="provider-list">
+                <a href="https://www.rust-lang.org" target="_blank" class="provider stack-item" data-name="rust lang"><div class="left"><i class="fa-brands fa-rust icon-box" style="color:#dea584"></i><span>Rust</span></div><i class="fa-solid fa-chevron-right"></i></a>
+                <a href="https://go.dev" target="_blank" class="provider stack-item" data-name="go golang lang"><div class="left"><i class="fa-brands fa-golang icon-box" style="color:#00add8"></i><span>Go</span></div><i class="fa-solid fa-chevron-right"></i></a>
+                <a href="https://ziglang.org" target="_blank" class="provider stack-item" data-name="zig lang"><div class="left"><i class="fa-solid fa-bolt icon-box" style="color:#f7a41d"></i><span>Zig</span></div><i class="fa-solid fa-chevron-right"></i></a>
+                <a href="https://nim-lang.org" target="_blank" class="provider stack-item" data-name="nim lang"><div class="left"><i class="fa-solid fa-crown icon-box" style="color:#ffe000"></i><span>Nim</span></div><i class="fa-solid fa-chevron-right"></i></a>
+                <a href="https://elixir-lang.org" target="_blank" class="provider stack-item" data-name="elixir phoenix lang"><div class="left"><i class="fa-solid fa-droplet icon-box" style="color:#a073cf"></i><span>Elixir</span></div><i class="fa-solid fa-chevron-right"></i></a>
+            </div>
+        </div>
+
+        <div class="stack-section">
+            <div class="section-label">Fullstack Platforms</div>
+            <div class="provider-list">
+                <a href="https://nextjs.org" target="_blank" class="provider stack-item" data-name="next.js nextjs react vercel"><div class="left"><i class="fa-solid fa-n icon-box"></i><span>Next.js</span></div><i class="fa-solid fa-chevron-right"></i></a>
+                <a href="https://nuxt.com" target="_blank" class="provider stack-item" data-name="nuxt vue nitro"><div class="left"><i class="fa-solid fa-mountain icon-box" style="color:#00dc82"></i><span>Nuxt</span></div><i class="fa-solid fa-chevron-right"></i></a>
+                <a href="https://remix.run" target="_blank" class="provider stack-item" data-name="remix react"><div class="left"><i class="fa-solid fa-guitar icon-box" style="color:#e11d48"></i><span>Remix</span></div><i class="fa-solid fa-chevron-right"></i></a>
+                <a href="https://kit.svelte.dev" target="_blank" class="provider stack-item" data-name="sveltekit svelte"><div class="left"><i class="fa-solid fa-fire-burner icon-box" style="color:#ff3e00"></i><span>SvelteKit</span></div><i class="fa-solid fa-chevron-right"></i></a>
+                <a href="https://astro.build" target="_blank" class="provider stack-item" data-name="astro"><div class="left"><i class="fa-solid fa-rocket icon-box"></i><span>Astro</span></div><i class="fa-solid fa-chevron-right"></i></a>
+            </div>
+        </div>
+
+        <div class="stack-section">
+            <div class="section-label">AI & LLM Infrastructure</div>
+            <div class="provider-list">
+                <a href="https://platform.openai.com" target="_blank" class="provider stack-item" data-name="openai platform gpt"><div class="left"><i class="fa-solid fa-microchip icon-box"></i><span>OpenAI Platform</span></div><i class="fa-solid fa-chevron-right"></i></a>
+                <a href="https://cloud.google.com/vertex-ai" target="_blank" class="provider stack-item" data-name="google vertex ai cloud"><div class="left"><i class="fa-brands fa-google icon-box" style="color:#4285f4"></i><span>Google Vertex AI</span></div><i class="fa-solid fa-chevron-right"></i></a>
+                <a href="https://anthropic.com" target="_blank" class="provider stack-item" data-name="anthropic claude"><div class="left"><i class="fa-solid fa-a icon-box"></i><span>Anthropic</span></div><i class="fa-solid fa-chevron-right"></i></a>
+                <a href="https://groq.com" target="_blank" class="provider stack-item" data-name="groq cloud lpu"><div class="left"><i class="fa-solid fa-bolt icon-box" style="color:#f55036"></i><span>Groq Cloud</span></div><i class="fa-solid fa-chevron-right"></i></a>
+                <a href="https://huggingface.co" target="_blank" class="provider stack-item" data-name="hugging face huggingface transformers"><div class="left"><i class="fa-solid fa-face-smile icon-box" style="color:#ffcc4d"></i><span>Hugging Face</span></div><i class="fa-solid fa-chevron-right"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Line 75: Pure Backend API Configurations
+        const BACKEND_ENV = {
+            API_KEY: "YOUR_GEMINI_API_KEY_HERE", // Set your key cleanly right here
+            MODEL: "gemini-1.5-flash"
+        };
+
+        async function executeGeminiCall(event) {
+            event.preventDefault();
+            
+            if (!BACKEND_ENV.API_KEY || BACKEND_ENV.API_KEY.includes("YOUR_GEMINI")) {
+                window.open("https://gemini.google.com", "_blank");
+                return;
+            }
+
+            const promptInput = prompt("Enter prompt to transmit directly to the Gemini API:");
+            if (!promptInput) return;
+
+            try {
+                const url = `https://generativelanguage.googleapis.com/v1beta/models/${BACKEND_ENV.MODEL}:generateContent?key=${BACKEND_ENV.API_KEY}`;
+                const response = await fetch(url, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ contents: [{ parts: [{ text: promptInput }] }] })
+                });
+
+                const data = await response.json();
+                const output = data.candidates?.[0]?.content?.parts?.[0]?.text;
+                
+                if (output) {
+                    alert(`Gemini:\n\n${output}`);
+                } else {
+                    alert("Response parsed empty. Verify API key privileges.");
+                }
+            } catch (err) {
+                alert("Connection error. Could not establish sandbox pipeline.");
+            }
+        }
+
+        function filterStack() {
+            const query = document.getElementById('searchInput').value.toLowerCase().trim();
+            const sections = document.querySelectorAll('.stack-section');
+
+            sections.forEach(section => {
+                const items = section.querySelectorAll('.stack-item');
+                let visibleCount = 0;
+
+                items.forEach(item => {
+                    const name = item.getAttribute('data-name');
+                    if (name.includes(query)) {
+                        item.classList.remove('hidden');
+                        visibleCount++;
+                    } else {
+                        item.classList.add('hidden');
+                    }
+                });
+
+                if (visibleCount === 0 && query !== "") {
+                    section.classList.add('hidden');
+                } else {
+                    section.classList.remove('hidden');
+                }
+            });
+        }
+    </script>
+</body>
+</html>
